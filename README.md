@@ -1,10 +1,10 @@
-Selenium Labs
+# Selenium Labs
 
 This repository contains Python scripts for Selenium automation labs.
 
-Lab 4: Automated Form Submissions
+## Lab 4: Automated Form Submissions
 
-Objective
+### Objective
 
 Automate filling and submitting a login form on a practice website and store the data in an AWS RDS MySQL database.
 
