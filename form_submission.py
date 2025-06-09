@@ -4,10 +4,14 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 import pymysql
 import time
+from dotenv import load_dotenv
+import os
+
+# Load environment variables
+load_dotenv()
 
 # Set up Chrome options
 options = webdriver.ChromeOptions()
-# Remove headless mode for local development to see the browser in action
 # options.add_argument('--headless')  # Uncomment for headless mode if desired
 options.add_argument('--no-sandbox')
 options.add_argument('--disable-dev-shm-usage')
@@ -38,10 +42,10 @@ try:
 
     # Connect to the RDS MySQL database
     conn = pymysql.connect(
-        host='db-sel-test.czymm8k0gra3.eu-north-1.rds.amazonaws.com',  # e.g., my-test-db.c3ogfbfieeet.us-east-2.rds.amazonaws.com
-        user='admin',      # e.g., admin
-        password='12345admin',  # e.g., 12345admin
-        database='db_sel_test',  # e.g., my_test_db
+        host=os.getenv('RDS_HOST'),
+        user=os.getenv('RDS_USER'),
+        password=os.getenv('RDS_PASSWORD'),
+        database=os.getenv('RDS_DATABASE'),
         port=3306
     )
 
@@ -50,11 +54,11 @@ try:
 
     # Create a table to store form submissions
     create_table_query = """
-                         CREATE TABLE IF NOT EXISTS form_submissions (
-                             id INT AUTO_INCREMENT PRIMARY KEY,
-                             username VARCHAR(255),
-                             password VARCHAR(255),
-                             submission_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    CREATE TABLE IF NOT EXISTS form_submissions (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        username VARCHAR(255),
+        password VARCHAR(255),
+        submission_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """
     cursor.execute(create_table_query)
